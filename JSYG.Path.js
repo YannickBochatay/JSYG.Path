@@ -1,10 +1,13 @@
-(function(root,factory) {
+/*jshint forin:false, eqnull:true*/
+/* globals JSYG*/
+
+(function(factory) {
     
     if (typeof define != "undefined" && define.amd) define("jsyg-path",["jsyg"],factory);
     else if (typeof JSYG != "undefined") factory(JSYG);
     else throw new Error("JSYG is needed");
     
-})(this,function(JSYG) {
+})(function(JSYG) {
     
     "use strict";
     
@@ -17,7 +20,7 @@
             var seg = path.pathSegList.getItem(1);
             seg.x = 20;
             
-            return !(path.pathSegList.getItem(1).x === 20);
+            return path.pathSegList.getItem(1).x !== 20;
             
         })();
         
@@ -50,7 +53,7 @@
         if (!arg) arg = '<path>';
         
         JSYG.call(this,arg);
-    };
+    }
     
     Path.prototype = new JSYG();
     
@@ -86,7 +89,6 @@
     Path.prototype.createSeg = function(type) {
         
         var method = 'createSVGPathSeg',
-        type = arguments[0],
         args = Array.prototype.slice.call(arguments,1),
         low = type.toLowerCase();
         
@@ -413,7 +415,7 @@
         }
         
         jPath.replaceSeg.apply(jPath,args);
-    };
+    }
     
     /**
      * Applique le tracé d'un autre chemin
@@ -496,23 +498,23 @@
                 m1 = {
                     x : (current.x+seg.x1)/2,
                     y : (current.y+seg.y1)/2
-                },
+                };
                 m2 = {
                     x : (seg.x1+seg.x2)/2,
                     y : (seg.y1+seg.y2)/2
-                },
+                };
                 m3 = {
                     x : (seg.x2+seg.x)/2,
                     y : (seg.y2+seg.y)/2
-                },
+                };
                 mm1 = {
                     x : (m1.x+m2.x)/2,
                     y : (m1.y+m2.y)/2
-                },
+                };
                 mm2 = {
                     x : (m2.x+m3.x)/2,
                     y : (m2.y+m3.y)/2
-                },
+                };
                 mmm = {
                     x : (mm1.x+mm2.x)/2,
                     y : (mm1.y+mm2.y)/2
@@ -1032,7 +1034,7 @@
                 bezier = this.arc2bez(i);
                 for (j=0,M=bezier.nbSegs();j<M;j++) {
                     jPath.appendSeg(bezier.getSeg(j));
-                };
+                }
             }
             else jPath.appendSeg(seg);
         }
@@ -1118,26 +1120,26 @@
             
             case 'C' :
                 
-                l1 = this.getLengthAtSeg(ind-1),
-                l2 = this.getLengthAtSeg(ind),
-                t = (distance-l1) / (l2-l1),
+                l1 = this.getLengthAtSeg(ind-1);
+                l2 = this.getLengthAtSeg(ind);
+                t = (distance-l1) / (l2-l1);
                 
                 //inspiré de http://www.planetclegg.com/projects/WarpingTextToSplines.html
                 
-                a = seg.x - 3  * seg.x2 + 3 * seg.x1 - current.x,
-                b = 3 * seg.x2 - 6 * seg.x1 + 3 * current.x,
-                c = 3 * seg.x1 - 3 * current.x,
+                a = seg.x - 3  * seg.x2 + 3 * seg.x1 - current.x;
+                b = 3 * seg.x2 - 6 * seg.x1 + 3 * current.x;
+                c = 3 * seg.x1 - 3 * current.x;
                 //d = current.x,
-                e = seg.y - 3  * seg.y2 + 3 * seg.y1 - current.y,
-                f = 3 * seg.y2 - 6 * seg.y1 + 3 * current.y,
-                g = 3 * seg.y1 - 3 * current.y,
+                e = seg.y - 3  * seg.y2 + 3 * seg.y1 - current.y;
+                f = 3 * seg.y2 - 6 * seg.y1 + 3 * current.y;
+                g = 3 * seg.y1 - 3 * current.y;
                 //h = current.y,
                 
                 //point de la courbe de bézier (equivalent à getPointAtLength)
                 //x = a * Math.pow(t,3) + b * Math.pow(t,2) + c * t + d,
                 //y = e * Math.pow(t,3) + f * Math.pow(t,2) + g * t + h,
                 
-                x = 3 * a * Math.pow(t,2) + 2 * b * t + c,
+                x = 3 * a * Math.pow(t,2) + 2 * b * t + c;
                 y = 3 * e * Math.pow(t,2) + 2 * f * t + g;
                 
                 return new JSYG.Vect(x,y).normalize();
@@ -1199,7 +1201,7 @@
         }
         
         return result === 'point' ? new JSYG.Vect(ptmin.x,ptmin.y) : length;
-    };
+    }
     
     /**
      * Trouve le point de la courbe le plus proche du point passé en paramètre
@@ -1298,7 +1300,7 @@
     
     function rationalFunction(x,c) {
         return (x * (x * c[0] + c[1]) + c[2]) / (x + c[3]);
-    };
+    }
     
     function estimateError(seg,etaA,etaB,bezierDegree) {
         
@@ -1372,41 +1374,43 @@
         };
         
         var eta  = 0.5 * (etaA + etaB);
+        var aCosEtaA,bSinEtaA,xA,yA,aCosEtaB,bSinEtaB,xB,yB,aCosEta,bSinEta,x,y,dx,dy;
+        var dEta,cos2,cos4,cos6,coeffs,c0,c1;
         
         if (bezierDegree < 2) {
             
             // start point
-            var aCosEtaA  = seg.r1 * Math.cos(etaA),
-            bSinEtaA = seg.r2 * Math.sin(etaA),
-            xA = seg.cx + aCosEtaA * Math.cos(seg.angleRad) - bSinEtaA * Math.sin(seg.angleRad),
-            yA = seg.cy + aCosEtaA * Math.sin(seg.angleRad) + Math.sin(seg.angleRad) * Math.cos(seg.angleRad),
+            aCosEtaA  = seg.r1 * Math.cos(etaA);
+            bSinEtaA = seg.r2 * Math.sin(etaA);
+            xA = seg.cx + aCosEtaA * Math.cos(seg.angleRad) - bSinEtaA * Math.sin(seg.angleRad);
+            yA = seg.cy + aCosEtaA * Math.sin(seg.angleRad) + Math.sin(seg.angleRad) * Math.cos(seg.angleRad);
             
             // end point
-            aCosEtaB = seg.r1 * Math.cos(etaB),
-            bSinEtaB = seg.r2 * Math.sin(etaB),
-            xB = seg.cx + aCosEtaB * Math.cos(seg.angleRad) - bSinEtaB * Math.sin(seg.angleRad),
-            yB = seg.cy + aCosEtaB * Math.sin(seg.angleRad) + bSinEtaB * Math.cos(seg.angleRad),
+            aCosEtaB = seg.r1 * Math.cos(etaB);
+            bSinEtaB = seg.r2 * Math.sin(etaB);
+            xB = seg.cx + aCosEtaB * Math.cos(seg.angleRad) - bSinEtaB * Math.sin(seg.angleRad);
+            yB = seg.cy + aCosEtaB * Math.sin(seg.angleRad) + bSinEtaB * Math.cos(seg.angleRad);
             
             // maximal error point
-            aCosEta = seg.r1 * Math.cos(eta),
-            bSinEta = seg.r2 * Math.sin(eta),
-            x = seg.cx + aCosEta * Math.cos(seg.angleRad) - bSinEta * Math.sin(seg.angleRad),
-            y = seg.cy + aCosEta * Math.sin(seg.angleRad) + bSinEta * Math.cos(seg.angleRad),
+            aCosEta = seg.r1 * Math.cos(eta);
+            bSinEta = seg.r2 * Math.sin(eta);
+            x = seg.cx + aCosEta * Math.cos(seg.angleRad) - bSinEta * Math.sin(seg.angleRad);
+            y = seg.cy + aCosEta * Math.sin(seg.angleRad) + bSinEta * Math.cos(seg.angleRad);
             
-            dx = xB - xA,
+            dx = xB - xA;
             dy = yB - yA;
             
             return Math.abs(x * dy - y * dx + xB * yA - xA * yB) / Math.sqrt(dx * dx + dy * dy);
         }
         else {
             
-            var x = seg.r2 / seg.r1,
-            dEta = etaB - etaA,
-            cos2 = Math.cos(2 * eta),
-            cos4 = Math.cos(4 * eta),
-            cos6 = Math.cos(6 * eta),
-            coeffs = (x < 0.25) ? coefs['degree'+bezierDegree].low : coefs['degree'+bezierDegree].high,// select the right coeficients set according to degree and b/a
-            c0 = rationalFunction(x, coeffs[0][0]) + cos2 * rationalFunction(x, coeffs[0][1]) + cos4 * rationalFunction(x, coeffs[0][2]) + cos6 * rationalFunction(x, coeffs[0][3]),
+            x = seg.r2 / seg.r1;
+            dEta = etaB - etaA;
+            cos2 = Math.cos(2 * eta);
+            cos4 = Math.cos(4 * eta);
+            cos6 = Math.cos(6 * eta);
+            coeffs = (x < 0.25) ? coefs['degree'+bezierDegree].low : coefs['degree'+bezierDegree].high;// select the right coeficients set according to degree and b/a
+            c0 = rationalFunction(x, coeffs[0][0]) + cos2 * rationalFunction(x, coeffs[0][1]) + cos4 * rationalFunction(x, coeffs[0][2]) + cos6 * rationalFunction(x, coeffs[0][3]);
             c1 = rationalFunction(x, coeffs[1][0]) + cos2 * rationalFunction(x, coeffs[1][1]) + cos4 * rationalFunction(x, coeffs[1][2]) + cos6 * rationalFunction(x, coeffs[1][3]);
             
             return rationalFunction(x, coefs['degree'+bezierDegree].safety) * seg.r1 * Math.exp(c0 + c1 * dEta);
@@ -1477,7 +1481,7 @@
         alpha = Math.sin(dEta) * (Math.sqrt(4 + 3 * t * t) - 1) / 3,
         xA,yA,k;
         
-        for (var i = 0; i < n; ++i) {
+        for (i=0;i<n;++i) {
             
             etaA = etaB;
             xA = xB;
@@ -1536,7 +1540,7 @@
         for(N=tab.length;i<N;i++) l[tab[i]] = parseFloat(elmt.getAttribute(tab[i]) || 0);
         
         return l;
-    };
+    }
     
     /**
      * Convertit une forme svg en chemin
