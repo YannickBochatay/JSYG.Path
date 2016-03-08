@@ -8,7 +8,8 @@
         "globals"
     ],
     "dependencies": {
-        "jsyg":"latest"
+        "jsyg":"latest",
+        "pathseg":"latest"
     },
     "devDependencies": {
         "qunit": "latest",
