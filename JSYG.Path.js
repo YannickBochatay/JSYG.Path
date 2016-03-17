@@ -3,7 +3,7 @@
 
 (function(factory) {
     
-    if (typeof define != "undefined" && define.amd) define("jsyg-path",["jsyg"],factory);
+    if (typeof define != "undefined" && define.amd) define("jsyg-path",["jsyg","pathseg"],factory);
     else if (typeof JSYG != "undefined") factory(JSYG);
     else throw new Error("JSYG is needed");
     
