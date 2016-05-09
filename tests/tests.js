@@ -4,7 +4,8 @@ if (typeof require!= "undefined") {
         paths: {
             "jsyg-path": '../JSYG.Path',
             "jquery":"../bower_components/jquery/dist/jquery",
-            "jsyg":"../bower_components/jsyg/JSYG"
+            "pathseg":"../bower_components/pathseg/pathseg",
+            "jsyg":"../bower_components/jsyg/dist/JSYG"
         },
         urlArgs: "bust=" + (+new Date())
     });

@@ -1,0 +1,34 @@
+{
+  "name": "jsyg-path",
+  "version": "0.1.5",
+  "description": "Manipulation of svg path with JSYG framework",
+  "main": "JSYG.Path.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/YannickBochatay/JSYG.Path.git"
+  },
+  "keywords": [
+    "svg",
+    "jsyg",
+    "jquery",
+    "javascript",
+    "library",
+    "path"
+  ],
+  "author": "Yannick Bochatay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YannickBochatay/JSYG.Path.js/issues"
+  },
+  "homepage": "https://github.com/YannickBochatay/JSYG.Path.js#readme",
+  "dependencies": {
+    "jsyg": "^0.6.7",
+    "pathseg": "^1.0.2"
+  }
+}
