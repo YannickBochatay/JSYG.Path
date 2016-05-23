@@ -62,6 +62,8 @@
         if (!arg) arg = '<path>';
         
         JSYG.call(this,arg);
+        
+        if (this.length > 1) this.length = 1;
     }
     
     Path.prototype = new JSYG();
@@ -1735,10 +1737,14 @@
         that = this;
         
         segList.forEach(function(seg,i) {
+          
+            var letter = seg.pathSegTypeAsLetter;
+            var prec, newseg;
             
-            if (seg.pathSegTypeAsLetter != 'L') return;
+            if (letter.toUpperCase() == "Z") seg = segList[0];
+            else if (letter != 'L') return;
             
-            var prec = segList[i-1],
+            prec = segList[i-1],
             newseg = that.createSeg('C',seg.x,seg.y,prec.x,prec.y,seg.x,seg.y);
             
             that.replaceSeg(i,newseg);
