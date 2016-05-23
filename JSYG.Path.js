@@ -112,7 +112,7 @@
             case 'v' : method+='LinetoVertical'; break;
             case 's' : method+='CurvetoCubicSmooth'; break;
             case 't' : method+='CurvetoQuadraticSmooth'; break;
-            default : throw type+' is not a correct letter for drawing paths !';
+            default : throw new Error(type+' is not a correct letter for drawing paths !');
         }
         
         if (low !== 'z') method+= (low === type) ? 'Rel' : 'Abs';
@@ -555,7 +555,7 @@
                 jPath.addSeg('M',seg.x,seg.y);
                 break;
             
-            default : throw "You must normalize the jPath";
+            default : throw new Error("You must normalize the jPath");
         }
         
         return jPath;
@@ -1440,7 +1440,7 @@
         bezierDegree = bezierDegree || 3;
         
         var seg = this.getSeg(ind);
-        if (seg.pathSegTypeAsLetter !== 'A') { throw "You can only comput center and angles on 'A' segments"; }
+        if (seg.pathSegTypeAsLetter !== 'A') { throw new Error("You can only comput center and angles on 'A' segments"); }
         
         var startPoint = this.getCurPt(ind);
         
