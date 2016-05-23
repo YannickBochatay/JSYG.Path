@@ -542,7 +542,7 @@
                 jPath.addSeg('L',seg.x,seg.y);
                 break;
             
-            case 'Z' :
+            case 'Z' : case 'z' :
                 
                 seg = this.getSeg(0);
                 m = { x: (current.x+seg.x)/2, y: (current.y+seg.y)/2 };
