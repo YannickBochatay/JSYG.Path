@@ -1,6 +1,6 @@
 {
   "name": "jsyg-path",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "Manipulation of svg path with JSYG framework",
   "main": "JSYG.Path.js",
   "directories": {
@@ -29,6 +29,6 @@
   "homepage": "https://github.com/YannickBochatay/JSYG.Path.js#readme",
   "dependencies": {
     "jsyg": "",
-    "pathseg": "^1.0.2"
+    "pathseg": "^1.2.0"
   }
 }

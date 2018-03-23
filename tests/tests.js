@@ -3,9 +3,9 @@ if (typeof require!= "undefined") {
     require.config({
         paths: {
             "jsyg-path": '../JSYG.Path',
-            "jquery":"../bower_components/jquery/dist/jquery",
-            "pathseg":"../bower_components/pathseg/pathseg",
-            "jsyg":"../bower_components/jsyg/dist/JSYG"
+            "jquery":"../node_modules/jquery/dist/jquery",
+            "pathseg":"../node_modules/pathseg/pathseg",
+            "jsyg":"../node_modules/jsyg/dist/JSYG"
         },
         urlArgs: "bust=" + (+new Date())
     });
