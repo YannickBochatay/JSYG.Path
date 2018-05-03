@@ -2,15 +2,8 @@
 Manipulation of svg path with [JSYG framework](https://github.com/YannickBochatay/JSYG)
 
 ### Installation
-
-##### with npm
 ```shell
 npm install jsyg-path
-```
-
-##### with bower
-```shell
-bower install jsyg-path
 ```
 
 ### Example with es6
