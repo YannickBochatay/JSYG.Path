@@ -946,6 +946,66 @@
         
         return this;
     };
+
+    /**
+     * Insert un point à la distance précisée. Pas de changement visuel.
+     * @link https://b3d.interplanety.org/en/creating-points-on-a-bezier-curve/
+     * @param {Number} length 
+     * @returns {Path}
+     */
+    Path.prototype.insertPointAtLength = function(length) {
+
+        if (!this.isNormalized()) throw new Error("You must normalize the path");
+
+        const indSeg1 = this.getSegAtLength(length)
+        const seg0 = this.getSeg(indSeg1 - 1)
+        const seg1 = this.getSeg(indSeg1)
+        const lengthAtSeg0 = this.getLengthAtSeg(indSeg1 - 1)
+
+        const t = (length - lengthAtSeg0) / (this.getLengthAtSeg(indSeg1) - lengthAtSeg0)
+        const p0 = { x : seg0.x, y : seg0.y }
+        const p1 = { x : seg1.x, y : seg1.y }
+        const p0hr = { x : seg1.x1, y : seg1.y1 }
+        const p1hl = { x : seg1.x2, y : seg1.y2 }
+
+        const t1 = {
+            x : p0.x + (p0hr.x - p0.x) * t,
+            y : p0.y + (p0hr.y - p0.y) * t
+        }
+
+        const t2 = {
+            x : p0hr.x + (p1hl.x - p0hr.x) * t,
+            y : p0hr.y + (p1hl.y - p0hr.y) * t
+        }
+
+        const t3 = {
+            x : p1hl.x + (p1.x - p1hl.x) * t,
+            y : p1hl.y + (p1.y - p1hl.y) * t
+        }
+
+        const p2hl = {
+            x : t1.x + (t2.x - t1.x) * t,
+            y : t1.y + (t2.y - t1.y) * t
+        }
+
+        const p2hr = {
+            x : t2.x + (t3.x - t2.x) * t,
+            y : t2.y + (t3.y - t2.y) * t
+        }
+
+        const p2 = {
+            x : p2hl.x + (p2hr.x - p2hl.x) * t,
+            y : p2hl.y + (p2hr.y - p2hl.y) * t
+        }
+
+        const newSeg1 = this.createSeg("C", p2.x, p2.y, t1.x, t1.y, p2hl.x, p2hl.y)
+        const newSeg2 = this.createSeg("C", p1.x, p1.y, p2hr.x, p2hr.y, t3.x, t3.y)
+
+        this.replaceSeg(indSeg1, newSeg1)
+        this.insertSeg(newSeg2, indSeg1 + 1)
+
+        return this
+    }
     
     /**
      * Teste si le point passé en paramètre est à l'intérieur du polygone défini par le chemin ou non.
