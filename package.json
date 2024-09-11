@@ -7,7 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "doc": "documentation readme JSYG.Path.js --section=API"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,7 @@
     "pathseg": "^1.2.0"
   },
   "devDependencies": {
+    "documentation": "^14.0.3",
     "qunit": "^2.6.0",
     "requirejs": "^2.3.5"
   }
