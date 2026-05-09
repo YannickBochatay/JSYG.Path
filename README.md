@@ -2,6 +2,8 @@
 
 Manipulation of svg path with [JSYG framework](https://github.com/YannickBochatay/JSYG)
 
+## ⚠️ Deprecated. Use [@jsyg/path](https://github.com/YannickBochatay/jsyg-monorepo/tree/main/packages/path) instead.
+
 ### Installation
 
 ```shell
